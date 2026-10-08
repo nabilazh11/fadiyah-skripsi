@@ -1,0 +1,118 @@
+{% extends "base.html" %}
+{% block judul %}Dasbor{% endblock %}
+{% block tajuk %}Dasbor{% endblock %}
+{% block subtajuk %}Gambaran umum model deteksi anomali DDoS dua tahap{% endblock %}
+
+{% block isi %}
+<div class="grid g4">
+  <div class="card stat">
+    <div class="k">Fitur dipakai</div><div class="v">{{ info.jumlah_fitur }}</div>
+    <div class="s">setelah filter korelasi r &gt; 0,98</div>
+  </div>
+  <div class="card stat ok">
+    <div class="k">Accuracy data uji</div><div class="v">{{ utama.accuracy|persen if utama else '—' }}</div>
+    <div class="s">hasil evaluasi akhir penelitian</div>
+  </div>
+  <div class="card stat violet">
+    <div class="k">Recall</div><div class="v">{{ utama.recall|persen if utama else '—' }}</div>
+    <div class="s">serangan yang berhasil dikenali</div>
+  </div>
+  <div class="card stat bad">
+    <div class="k">False positive rate</div><div class="v">{{ utama.fpr|persen if utama else '—' }}</div>
+    <div class="s">anggaran maksimal {{ info.anggaran_fpr|persen(0) }}</div>
+  </div>
+</div>
+
+{% if not m.ablation %}
+<div class="card"><div class="bd hint" style="margin:0">
+  Angka hasil penelitian belum tersedia. Letakkan <span class="mono">metrics.json</span> di folder
+  <span class="mono">model/</span>, atau jalankan notebook model sampai poin 8 untuk membuatnya.
+  Menu Deteksi tetap bisa dipakai tanpa berkas ini.
+</div></div>
+{% endif %}
+
+<div class="card">
+  <div class="hd"><h2>Cara model mengambil keputusan</h2>
+    <p>Flow yang sudah diputus di Tahap 1 tidak lagi diproses One-Class SVM.</p></div>
+  <div class="bd">
+    <div class="flow">
+      <div class="step"><div class="no">1</div><h3>Threshold statistik</h3>
+        <p>Nilai fitur dibandingkan dengan rentang normal trafik Benign. Keluar dari rentang → langsung diputus serangan.</p>
+        <div class="note mono">{{ info.stage1_nama }}</div></div>
+      <div class="arrow">→</div>
+      <div class="step two"><div class="no">2</div><h3>One-Class SVM</h3>
+        <p>Skor penyimpangan flow terhadap wilayah normal. Skor melewati ambang kalibrasi → diputus serangan.</p>
+        <div class="note mono">kernel {{ info.kernel }} · nu {{ info.nu }} · gamma {{ info.gamma }} · ambang {{ '%.5f'|format(info.ambang) }}</div></div>
+    </div>
+  </div>
+</div>
+
+{% if m.ablation %}
+<div class="grid g-31">
+  <div class="card">
+    <div class="hd"><h2>Perbandingan komponen model</h2><p>Diuji pada data uji yang sama (ablation study).</p></div>
+    <div class="bd" style="padding-top:12px">
+      <table>
+        <thead><tr><th>Susunan</th><th class="num">Accuracy</th><th class="num">Recall</th>
+          <th class="num">Precision</th><th class="num">F1</th><th class="num">FPR</th></tr></thead>
+        <tbody>
+        {% for a in m.ablation %}
+          {% set kuat = 'usulan' in a.nama|lower %}
+          <tr>
+            <td>{% if kuat %}<b>{{ a.nama }}</b>{% else %}{{ a.nama }}{% endif %}</td>
+            <td class="num">{{ a.accuracy|persen }}</td><td class="num">{{ a.recall|persen }}</td>
+            <td class="num">{{ a.precision|persen }}</td><td class="num">{{ a.f1|persen }}</td>
+            <td class="num">{{ a.fpr|persen }}</td>
+          </tr>
+        {% endfor %}
+        </tbody>
+      </table>
+      {% if utama and utama.roc_auc %}
+        <div class="legend"><span>ROC-AUC dua tahap <b class="mono">{{ '%.3f'|format(utama.roc_auc) }}</b></span>
+          <span>PR-AUC <b class="mono">{{ '%.3f'|format(utama.pr_auc) }}</b></span></div>
+      {% endif %}
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="hd"><h2>Komposisi data</h2><p>Data serangan tidak dipakai melatih model.</p></div>
+    <div class="bd" style="padding-top:12px">
+      <table>
+        <thead><tr><th>Himpunan</th><th class="num">Benign</th><th class="num">Serangan</th><th class="num">Total</th></tr></thead>
+        <tbody>
+          {% for k in m.komposisi %}
+          <tr><td>{{ k.himpunan }}</td><td class="num">{{ k.benign|angka }}</td>
+            <td class="num">{{ k.serangan|angka if k.serangan else '—' }}</td>
+            <td class="num">{{ k.total|angka }}</td></tr>
+          {% endfor %}
+        </tbody>
+      </table>
+      <p class="hint">{{ m.catatan }}</p>
+    </div>
+  </div>
+</div>
+{% endif %}
+
+{% if m.per_serangan %}
+<div class="card">
+  <div class="hd"><h2>Recall per jenis serangan pada data uji</h2>
+    <p>Semua jenis serangan tidak pernah dilihat model saat pelatihan.</p></div>
+  <div class="bd">
+    <div class="scroll" style="max-height:230px">
+      <table>
+        <thead><tr><th>Jenis serangan</th><th class="num">Sampel</th><th class="num">Tahap 1</th>
+          <th class="num">Tahap 2</th><th class="num">Recall</th><th style="width:150px">Cakupan</th></tr></thead>
+        <tbody>
+          {% for s in m.per_serangan %}
+          <tr><td>{{ s.label }}</td><td class="num">{{ s.sampel|angka }}</td>
+            <td class="num">{{ s.tahap1|angka }}</td><td class="num">{{ s.tahap2|angka }}</td>
+            <td class="num">{{ s.recall|persen }}</td>
+            <td><div class="meter"><i style="width:{{ (s.recall*100)|round(1) }}%"></i></div></td></tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+{% endif %}
+{% endblock %}

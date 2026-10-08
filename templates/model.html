@@ -1,0 +1,60 @@
+{% extends "base.html" %}
+{% block judul %}Model{% endblock %}
+{% block tajuk %}Model{% endblock %}
+{% block subtajuk %}Konfigurasi model yang sedang dimuat sistem{% endblock %}
+
+{% block isi %}
+<div class="grid g2">
+  <div class="card">
+    <div class="hd"><h2>Tahap 1 — threshold statistik</h2><p>Aturan diturunkan dari persentil data latih Benign.</p></div>
+    <div class="bd">
+      <dl class="kv">
+        <dt>Rancangan</dt><dd>{{ info.stage1_rancangan }}</dd>
+        <dt>Cara kerja</dt><dd>Ditandai serangan bila nilai fitur keluar dari rentang normal</dd>
+        <dt>Rincian</dt><dd class="mono">{{ info.stage1_rincian|join(', ') }}</dd>
+        <dt>Fitur diperiksa</dt><dd class="mono">{{ info.jumlah_fitur }}</dd>
+      </dl>
+    </div>
+  </div>
+  <div class="card">
+    <div class="hd"><h2>Tahap 2 — One-Class SVM</h2><p>Dilatih hanya dengan trafik Benign.</p></div>
+    <div class="bd">
+      <dl class="kv">
+        <dt>Kernel</dt><dd class="mono">{{ info.kernel }}</dd>
+        <dt>Nu</dt><dd class="mono">{{ info.nu }}</dd>
+        <dt>Gamma</dt><dd class="mono">{{ info.gamma }}</dd>
+        <dt>Support vector</dt><dd class="mono">{{ info.support_vector|angka }}</dd>
+        <dt>Ambang skor</dt><dd class="mono">{{ '%.5f'|format(info.ambang) }}</dd>
+        <dt>Anggaran FPR</dt><dd class="mono">{{ info.anggaran_fpr|persen(0) }}</dd>
+      </dl>
+    </div>
+  </div>
+</div>
+
+<div class="card">
+  <div class="hd"><h2>Berkas model yang dimuat</h2>
+    <p>Dimuat sekali saat sistem dinyalakan, tidak dilatih ulang saat deteksi berjalan.</p></div>
+  <div class="bd" style="padding-top:12px">
+    <table>
+      <thead><tr><th>Berkas</th><th>Isi</th><th class="num">Ukuran</th><th>Status</th></tr></thead>
+      <tbody>
+        <tr><td class="mono">{{ info.berkas_model }}</td>
+          <td>Preprocessor, aturan Tahap 1, model OC-SVM, ambang keputusan</td>
+          <td class="num">{{ info.ukuran_model_mb }} MB</td><td><span class="tag n">Dimuat</span></td></tr>
+        <tr><td class="mono">metrics.json</td><td>Angka hasil penelitian untuk halaman Dasbor</td>
+          <td class="num">—</td><td><span class="tag n">Dimuat</span></td></tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<div class="card">
+  <div class="hd"><h2>{{ info.jumlah_fitur }} fitur yang diperiksa</h2>
+    <p>Hasil seleksi domain lalu pembuangan fitur berkorelasi tinggi.</p></div>
+  <div class="bd">
+    <div class="chips">
+      {% for f in info.fitur %}<span class="chip">{{ f }}</span>{% endfor %}
+    </div>
+  </div>
+</div>
+{% endblock %}

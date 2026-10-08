@@ -1,0 +1,5 @@
+{
+  "python.analysis.extraPaths": ["."],
+  "files.exclude": { "**/__pycache__": true },
+  "jupyter.notebookFileRoot": "${fileDirname}"
+}

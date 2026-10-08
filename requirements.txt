@@ -1,0 +1,9 @@
+flask==3.1.0
+pandas>=2.2
+numpy>=1.26
+scikit-learn>=1.5
+joblib>=1.4
+pyarrow>=16.0
+openpyxl>=3.1
+matplotlib>=3.8
+ipykernel>=6.29

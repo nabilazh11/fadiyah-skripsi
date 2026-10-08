@@ -1,0 +1,485 @@
+[
+  {
+    "id": "67da496ddd",
+    "berkas": "data_uji.csv",
+    "waktu": "08 Oct 2026, 16:26",
+    "ringkas": {
+      "total": 14246,
+      "serangan": 7028,
+      "normal": 7218,
+      "tahap1": 1681,
+      "tahap2": 5347,
+      "diperiksa_ocsvm": 12565,
+      "durasi": 5.454,
+      "ms_per_flow": 0.3829,
+      "ambang": 0.08844713610914365,
+      "punya_label": true,
+      "tp": 6807,
+      "tn": 5775,
+      "fp": 221,
+      "fn": 1443,
+      "accuracy": 0.8831952828864242,
+      "precision": 0.9685543540125213,
+      "recall": 0.8250909090909091,
+      "f1": 0.8910852205786098,
+      "fpr": 0.03685790527018012,
+      "roc_auc": 0.9509,
+      "per_serangan": [
+        {
+          "label": "DDOS attack-LOIC-UDP",
+          "sampel": 1211,
+          "tahap1": 1211,
+          "tahap2": 0,
+          "recall": 1.0
+        },
+        {
+          "label": "DDoS attacks-LOIC-HTTP",
+          "sampel": 1400,
+          "tahap1": 6,
+          "tahap2": 1307,
+          "recall": 0.9378571428571428
+        },
+        {
+          "label": "DoS attacks-GoldenEye",
+          "sampel": 1400,
+          "tahap1": 43,
+          "tahap2": 1132,
+          "recall": 0.8392857142857143
+        },
+        {
+          "label": "DDOS attack-HOIC",
+          "sampel": 1400,
+          "tahap1": 0,
+          "tahap2": 1158,
+          "recall": 0.8271428571428572
+        },
+        {
+          "label": "DoS attacks-Slowloris",
+          "sampel": 1400,
+          "tahap1": 368,
+          "tahap2": 719,
+          "recall": 0.7764285714285715
+        },
+        {
+          "label": "DoS attacks-Hulk",
+          "sampel": 1400,
+          "tahap1": 0,
+          "tahap2": 856,
+          "recall": 0.6114285714285714
+        },
+        {
+          "label": "DoS attacks-SlowHTTPTest",
+          "sampel": 39,
+          "tahap1": 6,
+          "tahap2": 1,
+          "recall": 0.1794871794871795
+        }
+      ]
+    }
+  },
+  {
+    "id": "599c12fc7d",
+    "berkas": "data_uji_1.csv",
+    "waktu": "07 Oct 2026, 18:08",
+    "ringkas": {
+      "total": 10007,
+      "serangan": 3891,
+      "normal": 6116,
+      "tahap1": 1243,
+      "tahap2": 2648,
+      "diperiksa_ocsvm": 8764,
+      "durasi": 2.999,
+      "ms_per_flow": 0.2997,
+      "ambang": 0.08851309179399151,
+      "punya_label": true,
+      "tp": 3686,
+      "tn": 5791,
+      "fp": 205,
+      "fn": 325,
+      "accuracy": 0.9470370740481663,
+      "precision": 0.9473143150860961,
+      "recall": 0.918972824731987,
+      "f1": 0.9329283725639078,
+      "fpr": 0.03418945963975984,
+      "roc_auc": 0.9687,
+      "per_serangan": [
+        {
+          "label": "DDOS attack-LOIC-UDP",
+          "sampel": 1211,
+          "tahap1": 1211,
+          "tahap2": 0,
+          "recall": 1.0
+        },
+        {
+          "label": "DDoS attacks-LOIC-HTTP",
+          "sampel": 1400,
+          "tahap1": 6,
+          "tahap2": 1306,
+          "recall": 0.9371428571428572
+        },
+        {
+          "label": "DDOS attack-HOIC",
+          "sampel": 1400,
+          "tahap1": 0,
+          "tahap2": 1163,
+          "recall": 0.8307142857142857
+        }
+      ]
+    }
+  },
+  {
+    "id": "1d9101f92d",
+    "berkas": "data_uji_1.csv",
+    "waktu": "07 Oct 2026, 17:55",
+    "ringkas": {
+      "total": 10007,
+      "serangan": 3907,
+      "normal": 6100,
+      "tahap1": 1264,
+      "tahap2": 2643,
+      "diperiksa_ocsvm": 8743,
+      "durasi": 2.971,
+      "ms_per_flow": 0.2969,
+      "ambang": 0.08844713610914365,
+      "punya_label": true,
+      "tp": 3686,
+      "tn": 5775,
+      "fp": 221,
+      "fn": 325,
+      "accuracy": 0.9454381932647147,
+      "precision": 0.9434348605067827,
+      "recall": 0.918972824731987,
+      "f1": 0.9310431927254357,
+      "fpr": 0.03685790527018012,
+      "roc_auc": 0.9664,
+      "per_serangan": [
+        {
+          "label": "DDOS attack-LOIC-UDP",
+          "sampel": 1211,
+          "tahap1": 1211,
+          "tahap2": 0,
+          "recall": 1.0
+        },
+        {
+          "label": "DDoS attacks-LOIC-HTTP",
+          "sampel": 1400,
+          "tahap1": 6,
+          "tahap2": 1306,
+          "recall": 0.9371428571428572
+        },
+        {
+          "label": "DDOS attack-HOIC",
+          "sampel": 1400,
+          "tahap1": 0,
+          "tahap2": 1163,
+          "recall": 0.8307142857142857
+        }
+      ]
+    }
+  },
+  {
+    "id": "489cb1bc74",
+    "berkas": "data_uji.csv",
+    "waktu": "07 Oct 2026, 16:32",
+    "ringkas": {
+      "total": 14246,
+      "serangan": 7028,
+      "normal": 7218,
+      "tahap1": 1681,
+      "tahap2": 5347,
+      "diperiksa_ocsvm": 12565,
+      "durasi": 10.201,
+      "ms_per_flow": 0.716,
+      "ambang": 0.08844713610914365,
+      "punya_label": true,
+      "tp": 6807,
+      "tn": 5775,
+      "fp": 221,
+      "fn": 1443,
+      "accuracy": 0.8831952828864242,
+      "precision": 0.9685543540125213,
+      "recall": 0.8250909090909091,
+      "f1": 0.8910852205786098,
+      "fpr": 0.03685790527018012,
+      "roc_auc": 0.9509,
+      "per_serangan": [
+        {
+          "label": "DDOS attack-LOIC-UDP",
+          "sampel": 1211,
+          "tahap1": 1211,
+          "tahap2": 0,
+          "recall": 1.0
+        },
+        {
+          "label": "DDoS attacks-LOIC-HTTP",
+          "sampel": 1400,
+          "tahap1": 6,
+          "tahap2": 1307,
+          "recall": 0.9378571428571428
+        },
+        {
+          "label": "DoS attacks-GoldenEye",
+          "sampel": 1400,
+          "tahap1": 43,
+          "tahap2": 1132,
+          "recall": 0.8392857142857143
+        },
+        {
+          "label": "DDOS attack-HOIC",
+          "sampel": 1400,
+          "tahap1": 0,
+          "tahap2": 1158,
+          "recall": 0.8271428571428572
+        },
+        {
+          "label": "DoS attacks-Slowloris",
+          "sampel": 1400,
+          "tahap1": 368,
+          "tahap2": 719,
+          "recall": 0.7764285714285715
+        },
+        {
+          "label": "DoS attacks-Hulk",
+          "sampel": 1400,
+          "tahap1": 0,
+          "tahap2": 856,
+          "recall": 0.6114285714285714
+        },
+        {
+          "label": "DoS attacks-SlowHTTPTest",
+          "sampel": 39,
+          "tahap1": 6,
+          "tahap2": 1,
+          "recall": 0.1794871794871795
+        }
+      ]
+    }
+  },
+  {
+    "id": "ced43cb4fc",
+    "berkas": "data_uji.csv",
+    "waktu": "21 Sep 2026, 00:16",
+    "ringkas": {
+      "total": 14246,
+      "serangan": 7028,
+      "normal": 7218,
+      "tahap1": 1681,
+      "tahap2": 5347,
+      "diperiksa_ocsvm": 12565,
+      "durasi": 8.08,
+      "ms_per_flow": 0.5671,
+      "ambang": 0.08844713610914365,
+      "punya_label": true,
+      "tp": 6807,
+      "tn": 5775,
+      "fp": 221,
+      "fn": 1443,
+      "accuracy": 0.8831952828864242,
+      "precision": 0.9685543540125213,
+      "recall": 0.8250909090909091,
+      "f1": 0.8910852205786098,
+      "fpr": 0.03685790527018012,
+      "roc_auc": 0.9509,
+      "per_serangan": [
+        {
+          "label": "DDOS attack-LOIC-UDP",
+          "sampel": 1211,
+          "tahap1": 1211,
+          "tahap2": 0,
+          "recall": 1.0
+        },
+        {
+          "label": "DDoS attacks-LOIC-HTTP",
+          "sampel": 1400,
+          "tahap1": 6,
+          "tahap2": 1307,
+          "recall": 0.9378571428571428
+        },
+        {
+          "label": "DoS attacks-GoldenEye",
+          "sampel": 1400,
+          "tahap1": 43,
+          "tahap2": 1132,
+          "recall": 0.8392857142857143
+        },
+        {
+          "label": "DDOS attack-HOIC",
+          "sampel": 1400,
+          "tahap1": 0,
+          "tahap2": 1158,
+          "recall": 0.8271428571428572
+        },
+        {
+          "label": "DoS attacks-Slowloris",
+          "sampel": 1400,
+          "tahap1": 368,
+          "tahap2": 719,
+          "recall": 0.7764285714285715
+        },
+        {
+          "label": "DoS attacks-Hulk",
+          "sampel": 1400,
+          "tahap1": 0,
+          "tahap2": 856,
+          "recall": 0.6114285714285714
+        },
+        {
+          "label": "DoS attacks-SlowHTTPTest",
+          "sampel": 39,
+          "tahap1": 6,
+          "tahap2": 1,
+          "recall": 0.1794871794871795
+        }
+      ]
+    }
+  },
+  {
+    "id": "7695c25471",
+    "berkas": "contoh_flow.csv",
+    "waktu": "17 Sep 2026, 20:42",
+    "ringkas": {
+      "total": 400,
+      "serangan": 400,
+      "normal": 0,
+      "tahap1": 400,
+      "tahap2": 0,
+      "diperiksa_ocsvm": 0,
+      "durasi": 0.002,
+      "ms_per_flow": 0.0054,
+      "ambang": 0.08844713610914365,
+      "punya_label": true,
+      "tp": 173,
+      "tn": 0,
+      "fp": 227,
+      "fn": 0,
+      "accuracy": 0.4325,
+      "precision": 0.4325,
+      "recall": 1.0,
+      "f1": 0.6038394415357765,
+      "fpr": 1.0,
+      "roc_auc": 0.5,
+      "per_serangan": [
+        {
+          "label": "Bot",
+          "sampel": 26,
+          "tahap1": 26,
+          "tahap2": 0,
+          "recall": 1.0
+        },
+        {
+          "label": "DDOS attack-HOIC",
+          "sampel": 28,
+          "tahap1": 28,
+          "tahap2": 0,
+          "recall": 1.0
+        },
+        {
+          "label": "DDoS attacks-LOIC-HTTP",
+          "sampel": 26,
+          "tahap1": 26,
+          "tahap2": 0,
+          "recall": 1.0
+        },
+        {
+          "label": "DoS attacks-Hulk",
+          "sampel": 36,
+          "tahap1": 36,
+          "tahap2": 0,
+          "recall": 1.0
+        },
+        {
+          "label": "DoS attacks-SlowHTTPTest",
+          "sampel": 28,
+          "tahap1": 28,
+          "tahap2": 0,
+          "recall": 1.0
+        },
+        {
+          "label": "SSH-Bruteforce",
+          "sampel": 29,
+          "tahap1": 29,
+          "tahap2": 0,
+          "recall": 1.0
+        }
+      ]
+    }
+  },
+  {
+    "id": "63b7e91709",
+    "berkas": "data_uji.csv",
+    "waktu": "17 Sep 2026, 20:40",
+    "ringkas": {
+      "total": 14246,
+      "serangan": 7028,
+      "normal": 7218,
+      "tahap1": 1681,
+      "tahap2": 5347,
+      "diperiksa_ocsvm": 12565,
+      "durasi": 10.245,
+      "ms_per_flow": 0.7191,
+      "ambang": 0.08844713610914365,
+      "punya_label": true,
+      "tp": 6807,
+      "tn": 5775,
+      "fp": 221,
+      "fn": 1443,
+      "accuracy": 0.8831952828864242,
+      "precision": 0.9685543540125213,
+      "recall": 0.8250909090909091,
+      "f1": 0.8910852205786098,
+      "fpr": 0.03685790527018012,
+      "roc_auc": 0.9509,
+      "per_serangan": [
+        {
+          "label": "DDOS attack-LOIC-UDP",
+          "sampel": 1211,
+          "tahap1": 1211,
+          "tahap2": 0,
+          "recall": 1.0
+        },
+        {
+          "label": "DDoS attacks-LOIC-HTTP",
+          "sampel": 1400,
+          "tahap1": 6,
+          "tahap2": 1307,
+          "recall": 0.9378571428571428
+        },
+        {
+          "label": "DoS attacks-GoldenEye",
+          "sampel": 1400,
+          "tahap1": 43,
+          "tahap2": 1132,
+          "recall": 0.8392857142857143
+        },
+        {
+          "label": "DDOS attack-HOIC",
+          "sampel": 1400,
+          "tahap1": 0,
+          "tahap2": 1158,
+          "recall": 0.8271428571428572
+        },
+        {
+          "label": "DoS attacks-Slowloris",
+          "sampel": 1400,
+          "tahap1": 368,
+          "tahap2": 719,
+          "recall": 0.7764285714285715
+        },
+        {
+          "label": "DoS attacks-Hulk",
+          "sampel": 1400,
+          "tahap1": 0,
+          "tahap2": 856,
+          "recall": 0.6114285714285714
+        },
+        {
+          "label": "DoS attacks-SlowHTTPTest",
+          "sampel": 39,
+          "tahap1": 6,
+          "tahap2": 1,
+          "recall": 0.1794871794871795
+        }
+      ]
+    }
+  }
+]

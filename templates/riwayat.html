@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+{% block judul %}Riwayat{% endblock %}
+{% block tajuk %}Riwayat{% endblock %}
+{% block subtajuk %}Pemeriksaan yang pernah dijalankan pada sistem ini{% endblock %}
+
+{% block isi %}
+<div class="grid g3">
+  <div class="card stat"><div class="k">Pemeriksaan tersimpan</div>
+    <div class="v">{{ ikhtisar.jumlah }}</div><div class="s">{{ ikhtisar.maks }} pemeriksaan terakhir disimpan</div></div>
+  <div class="card stat bad"><div class="k">Total flow diperiksa</div>
+    <div class="v">{{ ikhtisar.flow|angka }}</div><div class="s">akumulasi seluruh berkas</div></div>
+  <div class="card stat ok"><div class="k">Accuracy rata-rata</div>
+    <div class="v">{{ ikhtisar.accuracy|persen }}</div><div class="s">pada berkas yang memuat label</div></div>
+</div>
+
+<div class="card">
+  <div class="hd row-between">
+    <div><h2>Daftar pemeriksaan</h2><p>Buka salah satu baris untuk melihat rincian hasilnya.</p></div>
+    {% if data %}
+    <form method="post" action="{{ url_for('kosongkan') }}">
+      <button class="btn ghost sm" type="submit">Kosongkan riwayat</button></form>
+    {% endif %}
+  </div>
+  <div class="bd">
+    {% if data %}
+    <div class="scroll" style="max-height:340px">
+      <table>
+        <thead><tr><th>Waktu</th><th>Berkas</th><th class="num">Total flow</th><th class="num">Serangan</th>
+          <th class="num">Tahap 1</th><th class="num">Tahap 2</th><th class="num">Accuracy</th><th></th></tr></thead>
+        <tbody>
+          {% for c in data %}
+          <tr><td class="mono">{{ c.waktu }}</td><td class="mono">{{ c.berkas }}</td>
+            <td class="num">{{ c.ringkas.total|angka }}</td><td class="num">{{ c.ringkas.serangan|angka }}</td>
+            <td class="num">{{ c.ringkas.tahap1|angka }}</td><td class="num">{{ c.ringkas.tahap2|angka }}</td>
+            <td class="num">{{ c.ringkas.accuracy|persen if c.ringkas.punya_label else '—' }}</td>
+            <td><a href="{{ url_for('hasil', run_id=c.id) }}">Buka</a></td></tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+    <p class="hint">Tanda — pada kolom accuracy berarti berkas tidak memuat kolom Label sehingga evaluasi tidak dihitung.</p>
+    {% else %}
+    <div class="empty">Belum ada pemeriksaan. Mulai dari menu <a href="{{ url_for('deteksi') }}">Deteksi</a>.</div>
+    {% endif %}
+  </div>
+</div>
+{% endblock %}

@@ -1,0 +1,134 @@
+{% extends "base.html" %}
+{% block judul %}Hasil deteksi{% endblock %}
+{% block tajuk %}Hasil deteksi{% endblock %}
+{% block subtajuk %}{{ c.berkas }} · {{ c.waktu }}{% endblock %}
+
+{% block isi %}
+<div class="grid g4">
+  <div class="card stat"><div class="k">Total flow diperiksa</div>
+    <div class="v">{{ r.total|angka }}</div><div class="s mono">{{ c.berkas }}</div></div>
+  <div class="card stat bad"><div class="k">Terdeteksi serangan</div>
+    <div class="v">{{ r.serangan|angka }}</div>
+    <div class="s">{{ (r.serangan / r.total)|persen }} dari total</div></div>
+  <div class="card stat warn"><div class="k">Diputus di Tahap 1</div>
+    <div class="v">{{ r.tahap1|angka }}</div><div class="s">tanpa menjalankan One-Class SVM</div></div>
+  <div class="card stat ok"><div class="k">Waktu proses</div>
+    <div class="v">{{ r.durasi }} dtk</div><div class="s">{{ r.ms_per_flow }} ms per flow</div></div>
+</div>
+
+<div class="card">
+  <div class="hd"><h2>Tahap mana yang memutuskan</h2><p>Sebaran keputusan untuk seluruh flow pada berkas ini.</p></div>
+  <div class="bd">
+    {% set p1 = r.tahap1 / r.total * 100 %}{% set p2 = r.tahap2 / r.total * 100 %}
+    {% set pn = r.normal / r.total * 100 %}
+    <div class="bar">
+      {% if p1 %}<div style="width:{{ p1 }}%;background:#ef4444">{{ r.tahap1|angka }}</div>{% endif %}
+      {% if p2 %}<div style="width:{{ p2 }}%;background:#f59e0b">{{ r.tahap2|angka }}</div>{% endif %}
+      {% if pn %}<div style="width:{{ pn }}%;background:#10b981">{{ r.normal|angka }}</div>{% endif %}
+    </div>
+    <div class="legend">
+      <span><i style="background:#ef4444"></i>Serangan, diputus Tahap 1 — {{ '%.2f'|format(p1) }}%</span>
+      <span><i style="background:#f59e0b"></i>Serangan, diputus Tahap 2 — {{ '%.2f'|format(p2) }}%</span>
+      <span><i style="background:#10b981"></i>Normal — {{ '%.2f'|format(pn) }}%</span>
+      <span>Diperiksa OC-SVM <b class="mono">{{ r.diperiksa_ocsvm|angka }}</b></span>
+    </div>
+  </div>
+</div>
+
+{% if r.punya_label %}
+<div class="grid g-13">
+  <div class="card">
+    <div class="hd"><h2>Evaluasi terhadap kolom Label</h2><p>Dihitung karena berkas menyertakan label sebenarnya.</p></div>
+    <div class="bd">
+      <div class="grid g3" style="gap:12px">
+        <div class="card stat" style="box-shadow:none"><div class="k">Accuracy</div><div class="v" style="font-size:21px">{{ r.accuracy|persen }}</div></div>
+        <div class="card stat ok" style="box-shadow:none"><div class="k">Precision</div><div class="v" style="font-size:21px">{{ r.precision|persen }}</div></div>
+        <div class="card stat violet" style="box-shadow:none"><div class="k">Recall</div><div class="v" style="font-size:21px">{{ r.recall|persen }}</div></div>
+        <div class="card stat warn" style="box-shadow:none"><div class="k">F1-score</div><div class="v" style="font-size:21px">{{ r.f1|persen }}</div></div>
+        <div class="card stat bad" style="box-shadow:none"><div class="k">False positive rate</div><div class="v" style="font-size:21px">{{ r.fpr|persen }}</div></div>
+        <div class="card stat" style="box-shadow:none"><div class="k">ROC-AUC</div><div class="v" style="font-size:21px">{{ r.roc_auc if r.roc_auc else '—' }}</div></div>
+      </div>
+    </div>
+  </div>
+  <div class="card">
+    <div class="hd"><h2>Confusion matrix</h2><p>Baris: keadaan sebenarnya. Kolom: keputusan sistem.</p></div>
+    <div class="bd">
+      <table class="cm">
+        <thead><tr><th></th><th>Diprediksi normal</th><th>Diprediksi serangan</th></tr></thead>
+        <tbody>
+          <tr><th>Normal</th><td class="g">{{ r.tn|angka }}</td><td class="r">{{ r.fp|angka }}</td></tr>
+          <tr><th>Serangan</th><td class="r">{{ r.fn|angka }}</td><td class="g">{{ r.tp|angka }}</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+{% if r.per_serangan %}
+<div class="card">
+  <div class="hd"><h2>Deteksi per jenis serangan</h2><p>Dihitung dari kolom Label pada berkas ini.</p></div>
+  <div class="bd">
+    <div class="scroll" style="max-height:210px">
+      <table>
+        <thead><tr><th>Jenis serangan</th><th class="num">Sampel</th><th class="num">Tahap 1</th>
+          <th class="num">Tahap 2</th><th class="num">Recall</th><th style="width:150px">Cakupan</th></tr></thead>
+        <tbody>
+          {% for s in r.per_serangan %}
+          <tr><td>{{ s.label }}</td><td class="num">{{ s.sampel|angka }}</td>
+            <td class="num">{{ s.tahap1|angka }}</td><td class="num">{{ s.tahap2|angka }}</td>
+            <td class="num">{{ s.recall|persen }}</td>
+            <td><div class="meter"><i style="width:{{ (s.recall*100)|round(1) }}%"></i></div></td></tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+{% endif %}
+{% else %}
+<div class="card"><div class="bd hint" style="margin:0">
+  Berkas tidak memuat kolom <span class="mono">Label</span>, sehingga sistem hanya melaporkan hasil deteksi tanpa evaluasi.
+</div></div>
+{% endif %}
+
+<div class="card">
+  <div class="hd row-between">
+    <div><h2>Rincian per flow</h2><p>{{ jumlah|angka }} baris pada tapisan ini, ditampilkan maksimal 300 baris.</p></div>
+    <div class="seg">
+      {% for kunci, label in [('semua','Semua'), ('serangan','Serangan'), ('normal','Normal')] %}
+        <a href="{{ url_for('hasil', run_id=c.id, saring=kunci) }}">
+          <button class="{{ 'on' if saring == kunci else '' }}" type="button">{{ label }}</button></a>
+      {% endfor %}
+    </div>
+  </div>
+  <div class="bd">
+    <div class="scroll" style="max-height:320px">
+      <table>
+        <thead><tr><th class="num">#</th>
+          {% for k in kolom %}<th class="num">{{ k }}</th>{% endfor %}
+          <th class="num">Skor OC-SVM</th><th>Hasil</th><th>Diputus oleh</th>
+          {% if r.punya_label %}<th>Label asli</th>{% endif %}</tr></thead>
+        <tbody>
+          {% for b in baris %}
+          <tr><td class="num">{{ b.no }}</td>
+            {% for v in b.nilai %}<td class="num mono">{{ v }}</td>{% endfor %}
+            <td class="num mono">{{ b.skor }}</td>
+            <td><span class="tag {{ 'a' if b.hasil == 'Serangan' else 'n' }}">{{ b.hasil }}</span></td>
+            <td>{% if b.tahap == 'Tahap 1' %}<span class="tag s1">Tahap 1</span>
+                {% elif b.tahap == 'Tahap 2' %}<span class="tag s2">Tahap 2</span>
+                {% else %}<span class="mono">—</span>{% endif %}</td>
+            {% if r.punya_label %}<td>{{ b.label }}</td>{% endif %}</tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+    <div class="row-between" style="margin-top:12px">
+      <span class="hint" style="margin:0">Berkas hasil lengkap tersedia dalam bentuk CSV.</span>
+      <div style="display:flex;gap:8px">
+        <a href="{{ url_for('unduh', run_id=c.id) }}"><button class="btn ghost sm" type="button">Unduh hasil (.csv)</button></a>
+        <a href="{{ url_for('deteksi') }}"><button class="btn sm" type="button">Periksa berkas lain</button></a>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

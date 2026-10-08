@@ -1,0 +1,8 @@
+Letakkan berkas ddos_two_stage_model.pkl hasil notebook di folder ini.
+
+Isi folder yang diharapkan:
+  model/ddos_two_stage_model.pkl   (wajib)  - model dua tahap hasil pelatihan
+  model/metrics.json               (opsional) - angka hasil penelitian untuk halaman Dasbor
+
+Tanpa metrics.json, sistem tetap berjalan; halaman Dasbor hanya menampilkan
+konfigurasi model tanpa angka evaluasi penelitian.

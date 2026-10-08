@@ -1,0 +1,89 @@
+{% extends "base.html" %}
+{% block judul %}Deteksi{% endblock %}
+{% block tajuk %}Deteksi{% endblock %}
+{% block subtajuk %}Unggah rekaman flow lalu jalankan model yang sudah dilatih{% endblock %}
+
+{% block isi %}
+<form method="post" enctype="multipart/form-data" id="form-deteksi">
+<div class="grid g-13">
+  <div class="card">
+    <div class="hd"><h2>Unggah rekaman flow</h2>
+      <p>Berkas hasil ekstraksi CICFlowMeter atau potongan dataset CSE-CIC-IDS2018.</p></div>
+    <div class="bd">
+      <label class="drop" for="berkas">
+        <div class="ic">⇧</div>
+        <b>Tarik berkas ke sini atau pilih dari perangkat</b>
+        <span>Format .csv, .parquet, atau .xlsx · maksimal 50 MB</span>
+        <div class="file">
+          <span class="btn ghost sm">Pilih berkas</span>
+          <span class="mono" id="nama-berkas">Belum ada berkas dipilih</span>
+        </div>
+        <input type="file" name="berkas" id="berkas" accept=".csv,.parquet,.xlsx,.xls" hidden>
+      </label>
+      <p class="hint">Berkas harus memuat {{ info.jumlah_fitur }} kolom fitur yang dipakai model.
+        Kolom <span class="mono">Label</span> bersifat opsional — bila ada, sistem sekaligus
+        menghitung accuracy, recall, precision, F1-score, dan confusion matrix.</p>
+      <div style="height:14px"></div>
+      <button class="btn" type="submit" id="tombol-deteksi">Mulai deteksi</button>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="hd"><h2>Konfigurasi model</h2>
+      <p>Seluruh parameter dikunci sesuai hasil pelatihan. Model tidak dilatih ulang.</p></div>
+    <div class="bd">
+      <dl class="kv">
+        <dt>Kernel</dt>        <dd class="mono">{{ info.kernel }}</dd>
+        <dt>Nu</dt>            <dd class="mono">{{ info.nu }}</dd>
+        <dt>Gamma</dt>         <dd class="mono">{{ info.gamma }}</dd>
+        <dt>Rancangan Tahap 1</dt><dd>{{ info.stage1_rancangan }}</dd>
+        <dt>Ambang Tahap 2</dt><dd class="mono">{{ '%.5f'|format(info.ambang) }}
+          <span style="color:var(--muted);font-weight:400;font-family:inherit">
+          (kalibrasi data validasi, anggaran FPR {{ info.anggaran_fpr|persen(0) }})</span></dd>
+        <dt>Fitur diperiksa</dt><dd class="mono">{{ info.jumlah_fitur }}</dd>
+      </dl>
+    </div>
+  </div>
+</div>
+
+<div class="card">
+  <div class="hd"><h2>Tahapan yang dijalankan</h2>
+    <p>Setiap flow melewati pemeriksaan berjenjang. Flow yang diputus di Tahap 1 tidak
+       lagi diproses OC-SVM.</p></div>
+  <div class="bd">
+    <div class="flow">
+      <div class="step"><div class="no">1</div><h3>Threshold statistik</h3>
+        <p>Nilai fitur dibandingkan dengan rentang normal trafik Benign.
+           Keluar dari rentang → langsung diputus serangan.</p>
+        <div class="note mono">{{ info.stage1_nama }}</div></div>
+      <div class="arrow">→</div>
+      <div class="step two"><div class="no">2</div><h3>One-Class SVM</h3>
+        <p>Menghitung skor penyimpangan terhadap wilayah normal.
+           Skor ≥ ambang → diputus serangan.</p>
+        <div class="note mono">kernel {{ info.kernel }} · nu {{ info.nu }} ·
+          gamma {{ info.gamma }} · ambang {{ '%.5f'|format(info.ambang) }}</div></div>
+    </div>
+  </div>
+</div>
+
+{% if contoh %}
+<div class="card">
+  <div class="hd"><h2>Berkas contoh</h2>
+    <p>Bisa dipakai bila belum punya rekaman flow sendiri.</p></div>
+  <div class="bd" style="padding-top:12px">
+    <table>
+      <thead><tr><th>Berkas</th><th>Keterangan</th><th style="width:130px"></th></tr></thead>
+      <tbody>
+        {% for nama in contoh %}
+        <tr><td class="mono">{{ nama }}</td>
+          <td>Tersedia di folder data sistem</td>
+          <td><button class="btn ghost sm" type="submit" name="contoh"
+              value="{{ nama }}">Pakai berkas</button></td></tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+{% endif %}
+</form>
+{% endblock %}
